@@ -18,6 +18,7 @@ def parse_args():
     parser.add_argument('checkpoint', help='checkpoint file')
     parser.add_argument('--out', help='output result file')
     parser.add_argument('--data-root', help='data path')
+    parser.add_argument('--noise-level', help='std of noise added before first layer input')
     parser.add_argument(
         '--fuse-conv-bn',
         action='store_true',
@@ -97,7 +98,12 @@ def main():
                 fh.write(f"{line.strip()}\n")
         time.sleep(2)
 
-    cfg = Config.fromfile(tmp_config)
+    #cfg = Config.fromfile(tmp_config)
+    cfg = Config.fromfile(args.config)
+
+    # Change noise level
+    if args.noise_level:
+        cfg.model.backbone.noise_level = float(args.noise_level)
 
     if args.cfg_options is not None:
         cfg.merge_from_dict(args.cfg_options)

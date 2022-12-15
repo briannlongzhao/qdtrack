@@ -521,7 +521,8 @@ class ModResNetV2Quant(BaseModule):
                  with_cp=False,
                  zero_init_residual=True,
                  pretrained=None,
-                 init_cfg=None):
+                 init_cfg=None,
+                 noise_level=0.01):
         super(ModResNetV2Quant, self).__init__(init_cfg)
         self.zero_init_residual = zero_init_residual
         if depth not in self.arch_settings:
@@ -624,6 +625,7 @@ class ModResNetV2Quant(BaseModule):
         self._freeze_stages()
         self.feat_dim = self.block.expansion * base_channels * 2**(
             len(self.stage_blocks) - 1)
+        self.noise_level = noise_level
 
     def make_stage_plugins(self, plugins, stage_idx):
         """Make plugins for ResNet ``stage_idx`` th stage.
@@ -740,10 +742,16 @@ class ModResNetV2Quant(BaseModule):
             self.fake_quantize = FakeQuantOp.apply
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=0)
 
+    def noise(self, x, mean=0.0, std=0.01):
+        f = torch.normal(torch.full(x.size(), mean), std).to(x.device)
+        x += x * torch.max(x) * f
+        return x
+
     def forward(self, x):
         """Forward function."""
         height_image = x.shape[2]
         width_image = x.shape[3]
+        x = self.noise(x, std=self.noise_level)
         if self.deep_stem:
             x = self.stem(x)
         else:

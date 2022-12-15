@@ -1,4 +1,12 @@
-data_root = '/lfs_ssd/slurm_tmp/jmathai/69596/data/bdd'
+import os, re, platform
+tmp_data_dir = ''
+hostname = platform.node()
+if "iGpu" in hostname or "iLab" in hostname:
+    os.environ["TMPDIR"] = "/lab/tmpig8e/u/brian-data"
+if "TMPDIR" in os.environ.keys():
+    tmp_data_dir = os.path.join(os.environ["TMPDIR"], "GTR/datasets", '')
+
+data_root = os.path.join(tmp_data_dir, "bdd/BDD100K")
 dataset_type = 'BDDVideoDataset'
 model = dict(
     type='QDTrack',
