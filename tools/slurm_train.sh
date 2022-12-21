@@ -8,6 +8,9 @@
 #SBATCH --ntasks=1
 #SBATCH --gres=gpu:4
 #SBATCH --mem-per-gpu=20G
+#SBATCH --output=output.txt
+#SBATCH --error=error.txt
+#SBATCH --open-mode=truncate
 
 CONFIG=$1
 GPUS=$2
