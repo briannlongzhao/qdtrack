@@ -18,7 +18,9 @@ Similarity learning has been recognized as a crucial step for object tracking. H
 <img src="figures/teaser.png" width="600">
 
 ## Command Line Example for Inference
+~~~
 python tools/test.py configs/bdd100k/quant_stem_16_7x7_2_qdtrack-frcnn_r50_fpn_12e_bdd100k.py models/weights.pth --eval tracks --noise-level 0.5
+~~~
 
 ## Main results
 Without bells and whistles, our method outperforms the states of the art on MOT, BDD100K, Waymo, and TAO benchmarks with ResNet-50 as the base model.
