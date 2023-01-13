@@ -22,6 +22,8 @@ Similarity learning has been recognized as a crucial step for object tracking. H
 python tools/test.py configs/bdd100k/quant_stem_16_7x7_2_qdtrack-frcnn_r50_fpn_12e_bdd100k.py models/weights.pth --eval tracks --noise-level 0.5
 ~~~
 
+`--noise-level`: noise added in ResNet backbone
+
 ## Main results
 Without bells and whistles, our method outperforms the states of the art on MOT, BDD100K, Waymo, and TAO benchmarks with ResNet-50 as the base model.
 
