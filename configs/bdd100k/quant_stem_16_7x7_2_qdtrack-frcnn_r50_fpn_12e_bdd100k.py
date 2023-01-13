@@ -23,7 +23,7 @@ model = dict(
         norm_eval=False,
         style='pytorch',
         init_cfg=dict(type='Pretrained', checkpoint='torchvision://resnet50'),
-        noise_level=0.1),
+        noise_level=0.0),
     neck=dict(
         type='FPN',
         in_channels=[256, 512, 1024, 2048],
